@@ -1,6 +1,5 @@
 package reader;
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -43,7 +42,7 @@ public class ReadJsonFromAllegroFile {
 
     public boolean isDeliveryFree(JSONObject obj) {
         JSONObject delivery = (JSONObject) obj.get("delivery");
-        return delivery.get("availableForFree").equals("true");
+        return (Boolean) delivery.get("availableForFree");
     }
 
     public Long availableUnits(JSONObject obj) {
@@ -55,25 +54,17 @@ public class ReadJsonFromAllegroFile {
         return (String) obj.get("name");
     }
 
-    public static void main(String[] args) {
-//        ReadJsonFromAllegroFile reader = new ReadJsonFromAllegroFile("cat256094.txt");
-//
-//        JSONObject promoted = (JSONObject) ((JSONObject) reader.getJsonObject()).get("items");
-//
-//        JSONArray promoetedList = (JSONArray) promoted.get("promoted");
-//        System.out.println(promoetedList.size());
-//
-//        System.out.println("\nPromoList names:");
-//
-//        for (int i = 0; i < promoetedList.size(); i++) {
-//            JSONObject element = (JSONObject) promoetedList.get(i);
-//            System.out.println("Name: " + reader.name(element));
-//            System.out.println("Delivery: " + reader.isDeliveryFree(element));
-//            System.out.println("Auction: " + reader.isAuction(element));
-//            System.out.println("Units: " + reader.availableUnits(element));
-//            System.out.println();
-//        }
-
+    public Boolean[] getListOfTrues(JSONObject obj, boolean delivery, boolean auction, Long minUnits, Long maxUnits) {
+        //list args: 0 delivery, 1 auction, 2 units
+        Boolean list[] = new Boolean[3];
+        list[0] = (isDeliveryFree(obj) == delivery);
+        list[1] = (isAuction(obj) == auction);
+        if (maxUnits.equals((long) -1)) {
+            list[2] = (availableUnits(obj) >= minUnits);
+        } else {
+            list[2] = (availableUnits(obj) >= minUnits && availableUnits(obj) <= maxUnits);
+        }
+        return list;
     }
 
 }

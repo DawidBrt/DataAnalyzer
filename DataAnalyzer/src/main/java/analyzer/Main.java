@@ -42,6 +42,19 @@ public class Main {
             System.out.println(labels[k] + ": " + ahp.getWeights()[k] * 100);
         }
 
+        Boolean table[][] = new Boolean[promoetedList.size()][3];
+        for (int i = 0; i < promoetedList.size(); i++) {
+            JSONObject element = (JSONObject) promoetedList.get(i);
+            table[i] = reader.getListOfTrues(element, true, false, (long) 0, (long) 10);
+        }
 
+        Analyzer analyzer = new Analyzer(reader, ahp);
+        double[][] newList = analyzer.boolListToDouble(table);
+        for (int i = 0; i < 4; i++){
+            for (int j = 0; j < newList[0].length; j++) {
+                System.out.print(newList[i][j] + " ");
+            }
+            System.out.println();
+        }
     }
 }
