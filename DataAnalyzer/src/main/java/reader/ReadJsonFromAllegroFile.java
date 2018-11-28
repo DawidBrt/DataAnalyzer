@@ -54,9 +54,9 @@ public class ReadJsonFromAllegroFile {
         return (String) obj.get("name");
     }
 
-    public Boolean[] getListOfTrues(JSONObject obj, boolean delivery, boolean auction, Long minUnits, Long maxUnits) {
+    public boolean[] getListOfTrues(JSONObject obj, boolean delivery, boolean auction, Long minUnits, Long maxUnits) {
         //list args: 0 delivery, 1 auction, 2 units
-        Boolean list[] = new Boolean[3];
+        boolean list[] = new boolean[3];
         list[0] = (isDeliveryFree(obj) == delivery);
         list[1] = (isAuction(obj) == auction);
         if (maxUnits.equals((long) -1)) {
